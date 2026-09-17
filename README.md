@@ -7,6 +7,7 @@ A freely-hosted blog about psychology. Built with [Astro](https://astro.build), 
 - **Astro** — static site generator, content collections, i18n routing
 - **Sveltia CMS** at `/admin` — writer's dashboard, Portuguese (Portugal)-only authoring
 - **Google Cloud Translation API** — machine-translates every post from Portuguese into en/es/fr/de/hi/ja/ar at build time (`scripts/translate.mjs`)
+- **sharp** — resizes/recompresses images the writer uploads via the CMS before they're served (`scripts/optimize-images.mjs`)
 - **GitHub Pages + GitHub Actions** — hosting and CI/CD
 - **pytest + Playwright (Python)** — UI test suite in `tests/`
 
@@ -45,4 +46,4 @@ Replace every `your-github-username` placeholder in `astro.config.mjs`, `src/con
 
 ## Writing a post
 
-Go to `/admin` on the deployed site, sign in with GitHub, and create a post — the CMS dashboard itself is in Portuguese. It stays a draft (invisible on the live site) until you untick "Rascunho" (Draft). The next push to `main` will automatically generate translated versions of any new or changed Portuguese post.
+Go to `/admin` on the deployed site, sign in with GitHub, and create a post — the CMS dashboard itself is in Portuguese. It stays a draft (invisible on the live site) until you untick "Rascunho" (Draft). The next push to `main` will automatically generate translated versions of any new or changed Portuguese post, and any newly uploaded image (cover image or one dropped into the body) will be resized to a max width of 1600px and recompressed before it's served. Both steps run once per image/post — a `manifest.json` alongside the uploads and a `sourceHash` in each translated post's frontmatter track what's already been processed, so nothing is redone (or re-committed) on every build.

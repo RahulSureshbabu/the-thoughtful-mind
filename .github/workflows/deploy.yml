@@ -15,13 +15,14 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # Translates any new/changed English posts and commits the results back to
-  # `main` using the default GITHUB_TOKEN. GitHub's built-in safeguard means
-  # a push made with GITHUB_TOKEN does NOT trigger another workflow run, so
-  # there's no infinite-loop risk here and no "[skip ci]" trick is needed —
+  # Translates any new/changed Portuguese posts and optimizes any new CMS
+  # image uploads, then commits the results back to `main` using the default
+  # GITHUB_TOKEN. GitHub's built-in safeguard means a push made with
+  # GITHUB_TOKEN does NOT trigger another workflow run, so there's no
+  # infinite-loop risk here and no "[skip ci]" trick is needed —
   # build/test/deploy below simply run against the freshly committed content
   # in this same workflow run.
-  translate:
+  prepare-content:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -34,13 +35,14 @@ jobs:
       - run: node scripts/translate.mjs
         env:
           GOOGLE_TRANSLATE_API_KEY: ${{ secrets.GOOGLE_TRANSLATE_API_KEY }}
+      - run: node scripts/optimize-images.mjs
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "chore: update machine translations"
-          file_pattern: "src/content/posts/**/*.md"
+          commit_message: "chore: update machine translations and optimize images"
+          file_pattern: "src/content/posts/**/*.md public/images/uploads/**"
 
   build:
-    needs: translate
+    needs: prepare-content
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -51,7 +53,7 @@ jobs:
           node-version: 24
 
   test:
-    needs: translate
+    needs: prepare-content
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
