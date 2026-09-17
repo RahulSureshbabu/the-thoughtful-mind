@@ -1,6 +1,6 @@
 ---
 import { SITE } from '../config/site';
-import type { Locale } from '../utils/posts';
+import { SOURCE_LOCALE, INTL_TAG, type Locale } from '../utils/posts';
 
 interface Translation {
 	locale: Locale;
@@ -24,7 +24,7 @@ const canonicalURL = new URL(Astro.url.pathname, SITE.url);
 const ogImage = image ? new URL(image, SITE.url).toString() : undefined;
 const pageTitle = title === SITE.title ? title : `${title} · ${SITE.title}`;
 
-const defaultTranslation = translations.find((t) => t.locale === 'en');
+const defaultTranslation = translations.find((t) => t.locale === SOURCE_LOCALE);
 ---
 
 <title>{pageTitle}</title>
@@ -38,7 +38,7 @@ const defaultTranslation = translations.find((t) => t.locale === 'en');
 <meta property="og:title" content={pageTitle} />
 <meta property="og:description" content={description} />
 <meta property="og:url" content={canonicalURL} />
-<meta property="og:locale" content={locale} />
+<meta property="og:locale" content={INTL_TAG[locale].replace('-', '_')} />
 {ogImage && <meta property="og:image" content={ogImage} />}
 
 <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />

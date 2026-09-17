@@ -1,6 +1,13 @@
 ---
 import { SITE, ADSENSE } from '../config/site';
+import type { Locale } from '../utils/posts';
+import { t } from '../utils/strings';
 
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const year = new Date().getFullYear();
 ---
@@ -10,7 +17,7 @@ const year = new Date().getFullYear();
 		<p>© {year} {SITE.title}</p>
 		<div class="links">
 			<a href={`${base}/rss.xml`}>RSS</a>
-			{ADSENSE.enabled && <span class="ad-disclosure">This site runs ads to help keep it free.</span>}
+			{ADSENSE.enabled && <span class="ad-disclosure">{t(locale, 'footer.adDisclosure')}</span>}
 		</div>
 	</div>
 </footer>

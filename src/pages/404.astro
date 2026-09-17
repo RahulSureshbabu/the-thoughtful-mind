@@ -1,11 +1,14 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { t } from '../utils/strings';
+
+const locale = 'pt' as const;
 ---
 
-<BaseLayout locale="en" title="Page not found" description="This page could not be found.">
+<BaseLayout locale={locale} title={t(locale, 'notFound.title')} description={t(locale, 'notFound.body')}>
 	<section class="container not-found">
-		<h1>Page not found</h1>
-		<p>The page you're looking for doesn't exist. <a href={import.meta.env.BASE_URL}>Return home</a>.</p>
+		<h1>{t(locale, 'notFound.title')}</h1>
+		<p>{t(locale, 'notFound.body')} <a href={import.meta.env.BASE_URL}>{t(locale, 'notFound.returnHome')}</a>.</p>
 	</section>
 </BaseLayout>
 

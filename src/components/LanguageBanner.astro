@@ -1,5 +1,6 @@
 ---
-import { LOCALES, LOCALE_LABELS, type Locale } from '../utils/posts';
+import { LOCALES, LOCALE_LABELS, SOURCE_LOCALE, type Locale } from '../utils/posts';
+import { t } from '../utils/strings';
 
 interface Props {
 	locale: Locale;
@@ -8,6 +9,7 @@ interface Props {
 
 const { locale, availableLocales = LOCALES as unknown as Locale[] } = Astro.props;
 const base = import.meta.env.BASE_URL;
+const messageTemplate = t(locale, 'languageBanner.available');
 ---
 
 <div
@@ -18,11 +20,13 @@ const base = import.meta.env.BASE_URL;
 	data-available-locales={availableLocales.join(',')}
 	data-base={base}
 	data-labels={JSON.stringify(LOCALE_LABELS)}
+	data-message-template={messageTemplate}
+	data-source-locale={SOURCE_LOCALE}
 >
 	<p class="container">
 		<span id="language-banner-text"></span>
-		<a id="language-banner-link" href="#">Switch</a>
-		<button id="language-banner-dismiss" type="button" aria-label="Dismiss">×</button>
+		<a id="language-banner-link" href="#">{t(locale, 'languageBanner.switch')}</a>
+		<button id="language-banner-dismiss" type="button" aria-label={t(locale, 'languageBanner.dismiss')}>×</button>
 	</p>
 </div>
 
@@ -66,6 +70,8 @@ const base = import.meta.env.BASE_URL;
 			const available = (banner.dataset.availableLocales ?? '').split(',').filter(Boolean);
 			const base = banner.dataset.base ?? '/';
 			const labels = JSON.parse(banner.dataset.labels ?? '{}') as Record<string, string>;
+			const messageTemplate = banner.dataset.messageTemplate ?? '{lang}';
+			const sourceLocale = banner.dataset.sourceLocale ?? 'pt';
 
 			const browserLangs = navigator.languages ?? [navigator.language];
 			const best = browserLangs
@@ -78,13 +84,13 @@ const base = import.meta.env.BASE_URL;
 				rest = '/' + rest.replace(/^\/+/, '');
 				const segments = rest.split('/').filter(Boolean);
 				if (segments.length > 0 && available.includes(segments[0])) segments.shift();
-				const localePrefix = best === 'en' ? '' : `/${best}`;
+				const localePrefix = best === sourceLocale ? '' : `/${best}`;
 				const target = `${base}${localePrefix}/${segments.join('/')}`.replace(/\/+$/, '') || `${base}${localePrefix}` || '/';
 
 				const link = document.getElementById('language-banner-link') as HTMLAnchorElement;
 				const text = document.getElementById('language-banner-text');
 				link.href = target;
-				if (text) text.textContent = `This post is also available in ${labels[best] ?? best}.`;
+				if (text) text.textContent = messageTemplate.replace('{lang}', labels[best] ?? best);
 				banner.hidden = false;
 			}
 		} catch {

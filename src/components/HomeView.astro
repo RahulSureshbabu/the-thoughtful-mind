@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PostCard from './PostCard.astro';
 import { SITE } from '../config/site';
 import { getPublishedPosts, type Locale } from '../utils/posts';
+import { t } from '../utils/strings';
 
 interface Props {
 	locale: Locale;
@@ -10,15 +11,16 @@ interface Props {
 
 const { locale } = Astro.props;
 const posts = await getPublishedPosts(locale);
+const tagline = t(locale, 'home.tagline');
 ---
 
-<BaseLayout locale={locale} title={SITE.title} description={SITE.description}>
+<BaseLayout locale={locale} title={SITE.title} description={tagline}>
 	<section class="container hero">
 		<h1>{SITE.title}</h1>
-		<p>{SITE.description}</p>
+		<p>{tagline}</p>
 	</section>
 	<section class="container posts">
-		{posts.length === 0 && <p>New posts are on their way — check back soon.</p>}
+		{posts.length === 0 && <p>{t(locale, 'home.empty')}</p>}
 		{posts.map((post) => <PostCard post={post} locale={locale} />)}
 	</section>
 </BaseLayout>

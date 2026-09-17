@@ -1,7 +1,7 @@
 ---
 import { render } from 'astro:content';
 import PostLayout from '../layouts/PostLayout.astro';
-import { getPostBySlug, getRelatedPosts, getAvailableLocalesForSlug, type Locale } from '../utils/posts';
+import { getPostBySlug, getRelatedPosts, getAvailableLocalesForSlug, SOURCE_LOCALE, type Locale } from '../utils/posts';
 
 interface Props {
 	locale: Locale;
@@ -21,7 +21,7 @@ const availableLocales = await getAvailableLocalesForSlug(slug);
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const translations = availableLocales.map((l) => ({
 	locale: l,
-	path: `${base}${l === 'en' ? '' : `/${l}`}/posts/${slug}/`,
+	path: `${base}${l === SOURCE_LOCALE ? '' : `/${l}`}/posts/${slug}/`,
 }));
 ---
 

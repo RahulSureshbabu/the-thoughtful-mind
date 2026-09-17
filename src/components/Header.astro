@@ -1,7 +1,8 @@
 ---
 import ThemeToggle from './ThemeToggle.astro';
 import { SITE } from '../config/site';
-import type { Locale } from '../utils/posts';
+import { SOURCE_LOCALE, type Locale } from '../utils/posts';
+import { t } from '../utils/strings';
 
 interface Props {
 	locale: Locale;
@@ -9,7 +10,7 @@ interface Props {
 
 const { locale } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-const prefix = locale === 'en' ? '' : `/${locale}`;
+const prefix = locale === SOURCE_LOCALE ? '' : `/${locale}`;
 const home = `${base}${prefix}/`;
 const tagsHref = `${base}${prefix}/tags/`;
 const aboutHref = `${base}${prefix}/about/`;
@@ -19,11 +20,11 @@ const aboutHref = `${base}${prefix}/about/`;
 	<div class="container inner">
 		<a class="brand" href={home}>{SITE.title}</a>
 		<nav aria-label="Primary">
-			<a href={home}>Home</a>
-			<a href={tagsHref}>Tags</a>
-			<a href={aboutHref}>About</a>
+			<a href={home}>{t(locale, 'nav.home')}</a>
+			<a href={tagsHref}>{t(locale, 'nav.tags')}</a>
+			<a href={aboutHref}>{t(locale, 'nav.about')}</a>
 		</nav>
-		<ThemeToggle />
+		<ThemeToggle locale={locale} />
 	</div>
 </header>
 

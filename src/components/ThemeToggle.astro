@@ -1,4 +1,15 @@
-<button id="theme-toggle" type="button" aria-label="Toggle dark mode">
+---
+import type { Locale } from '../utils/posts';
+import { t } from '../utils/strings';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<button id="theme-toggle" type="button" aria-label={t(locale, 'themeToggle.aria')}>
 	<span class="icon" aria-hidden="true">◐</span>
 </button>
 

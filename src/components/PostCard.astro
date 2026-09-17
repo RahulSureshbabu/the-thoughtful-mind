@@ -1,7 +1,8 @@
 ---
 import type { PostEntry } from '../utils/posts';
-import { postSlug, type Locale } from '../utils/posts';
+import { postSlug, SOURCE_LOCALE, INTL_TAG, type Locale } from '../utils/posts';
 import { estimateReadingMinutes } from '../utils/readingTime';
+import { t } from '../utils/strings';
 
 interface Props {
 	post: PostEntry;
@@ -10,7 +11,7 @@ interface Props {
 
 const { post, locale } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-const prefix = locale === 'en' ? '' : `/${locale}`;
+const prefix = locale === SOURCE_LOCALE ? '' : `/${locale}`;
 const href = `${base}${prefix}/posts/${postSlug(post)}/`;
 const { title, description, pubDate, tags, coverImage, coverImageAlt } = post.data;
 const readingMinutes = estimateReadingMinutes(post.body ?? '');
@@ -21,9 +22,9 @@ const readingMinutes = estimateReadingMinutes(post.body ?? '');
 	<div class="body">
 		<h2><a href={href}>{title}</a></h2>
 		<p class="meta">
-			<time datetime={pubDate.toISOString()}>{pubDate.toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+			<time datetime={pubDate.toISOString()}>{pubDate.toLocaleDateString(INTL_TAG[locale], { year: 'numeric', month: 'long', day: 'numeric' })}</time>
 			<span aria-hidden="true">·</span>
-			<span>{readingMinutes} min read</span>
+			<span>{t(locale, 'meta.minRead', { n: readingMinutes })}</span>
 		</p>
 		<p class="description">{description}</p>
 		{tags.length > 0 && (

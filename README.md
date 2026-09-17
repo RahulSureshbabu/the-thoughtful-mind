@@ -5,8 +5,8 @@ A freely-hosted blog about psychology. Built with [Astro](https://astro.build), 
 ## Stack
 
 - **Astro** — static site generator, content collections, i18n routing
-- **Sveltia CMS** at `/admin` — writer's dashboard, English-only authoring
-- **Google Cloud Translation API** — machine-translates every post into es/fr/de/pt/hi/ja/ar at build time (`scripts/translate.mjs`)
+- **Sveltia CMS** at `/admin` — writer's dashboard, Portuguese (Portugal)-only authoring
+- **Google Cloud Translation API** — machine-translates every post from Portuguese into en/es/fr/de/hi/ja/ar at build time (`scripts/translate.mjs`)
 - **GitHub Pages + GitHub Actions** — hosting and CI/CD
 - **pytest + Playwright (Python)** — UI test suite in `tests/`
 
@@ -45,4 +45,4 @@ Replace every `your-github-username` placeholder in `astro.config.mjs`, `src/con
 
 ## Writing a post
 
-Go to `/admin` on the deployed site, sign in with GitHub, and create a post. It stays a draft (invisible on the live site) until you untick "Draft." The next push to `main` will automatically generate translated versions of any new or changed English post.
+Go to `/admin` on the deployed site, sign in with GitHub, and create a post — the CMS dashboard itself is in Portuguese. It stays a draft (invisible on the live site) until you untick "Rascunho" (Draft). The next push to `main` will automatically generate translated versions of any new or changed Portuguese post.

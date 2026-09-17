@@ -3,7 +3,7 @@ import { getAllTags, LOCALES } from '../../../utils/posts';
 import TagView from '../../../components/TagView.astro';
 
 export async function getStaticPaths() {
-	const locales = LOCALES.filter((locale) => locale !== 'en');
+	const locales = LOCALES.filter((locale) => locale !== 'pt');
 	const paths = [];
 	for (const locale of locales) {
 		const tags = await getAllTags(locale);

@@ -8,23 +8,26 @@ backend:
 media_folder: "public/images/uploads"
 public_folder: "/images/uploads"
 
-# The writer only ever authors in English — every other language is generated
-# automatically by the CI translation step (scripts/translate.mjs). Do not add
-# per-language collections here.
+# Switches Sveltia's own interface (buttons, menus) to Portuguese too.
+locale: "pt"
+
+# The writer only ever authors in Portuguese (Portugal) — every other language
+# is generated automatically by the CI translation step (scripts/translate.mjs).
+# Do not add per-language collections here.
 collections:
   - name: posts
-    label: Posts
-    folder: src/content/posts/en
+    label: Artigos
+    folder: src/content/posts/pt
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
-      - { label: Title, name: title, widget: string }
-      - { label: Description, name: description, widget: text }
-      - { label: "Publish Date", name: pubDate, widget: datetime }
-      - { label: "Updated Date", name: updatedDate, widget: datetime, required: false }
-      - { label: Tags, name: tags, widget: list, default: [] }
-      - { label: "Cover Image", name: coverImage, widget: image, required: false }
-      - { label: "Cover Image Alt Text", name: coverImageAlt, widget: string, required: false }
-      - { label: Featured, name: featured, widget: boolean, default: false }
-      - { label: Draft, name: draft, widget: boolean, default: true }
-      - { label: Body, name: body, widget: markdown }
+      - { label: Título, name: title, widget: string }
+      - { label: Descrição, name: description, widget: text }
+      - { label: "Data de publicação", name: pubDate, widget: datetime }
+      - { label: "Data de atualização", name: updatedDate, widget: datetime, required: false }
+      - { label: Etiquetas, name: tags, widget: list, default: [] }
+      - { label: "Imagem de capa", name: coverImage, widget: image, required: false }
+      - { label: "Texto alternativo da imagem", name: coverImageAlt, widget: string, required: false }
+      - { label: Destaque, name: featured, widget: boolean, default: false }
+      - { label: Rascunho, name: draft, widget: boolean, default: true }
+      - { label: Conteúdo, name: body, widget: markdown }

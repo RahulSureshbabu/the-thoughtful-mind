@@ -3,11 +3,11 @@ import { getAllTags } from '../../utils/posts';
 import TagView from '../../components/TagView.astro';
 
 export async function getStaticPaths() {
-	const tags = await getAllTags('en');
+	const tags = await getAllTags('pt');
 	return tags.map((tag) => ({ params: { tag } }));
 }
 
 const { tag } = Astro.params;
 ---
 
-<TagView locale="en" tag={tag!} />
+<TagView locale="pt" tag={tag!} />

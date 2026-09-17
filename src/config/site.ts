@@ -1,6 +1,6 @@
 export const SITE = {
 	title: 'The Thoughtful Mind',
-	description: 'Reflections on psychology, written to be read slowly.',
+	description: 'Reflexões sobre psicologia, escritas para serem lidas com calma.',
 	url: 'https://your-github-username.github.io/the-thoughtful-mind',
 };
 

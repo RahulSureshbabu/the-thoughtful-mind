@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PostCard from './PostCard.astro';
 import { getPostsByTag, type Locale } from '../utils/posts';
+import { t } from '../utils/strings';
 
 interface Props {
 	locale: Locale;
@@ -12,10 +13,10 @@ const { locale, tag } = Astro.props;
 const posts = await getPostsByTag(locale, tag);
 ---
 
-<BaseLayout locale={locale} title={`Posts tagged "${tag}"`} description={`Posts tagged ${tag}`}>
+<BaseLayout locale={locale} title={`#${tag}`} description={`#${tag}`}>
 	<section class="container tag-page">
 		<h1>#{tag}</h1>
-		{posts.length === 0 && <p>No posts with this tag yet.</p>}
+		{posts.length === 0 && <p>{t(locale, 'tag.empty')}</p>}
 		{posts.map((post) => <PostCard post={post} locale={locale} />)}
 	</section>
 </BaseLayout>

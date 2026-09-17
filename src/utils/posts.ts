@@ -2,18 +2,34 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 
 export type PostEntry = CollectionEntry<'posts'>;
 
-export const LOCALES = ['en', 'es', 'fr', 'de', 'pt', 'hi', 'ja', 'ar'] as const;
+export const LOCALES = ['pt', 'en', 'es', 'fr', 'de', 'hi', 'ja', 'ar'] as const;
 export type Locale = (typeof LOCALES)[number];
 
+/** Source language: Portuguese (Portugal). Every other locale is machine-translated from it. */
+export const SOURCE_LOCALE: Locale = 'pt';
+
 export const LOCALE_LABELS: Record<Locale, string> = {
+	pt: 'Português',
 	en: 'English',
 	es: 'Español',
 	fr: 'Français',
 	de: 'Deutsch',
-	pt: 'Português',
 	hi: 'हिन्दी',
 	ja: '日本語',
 	ar: 'العربية',
+};
+
+/** BCP-47 tags for Intl formatting (e.g. toLocaleDateString). `pt` is explicitly `pt-PT` — bare
+ *  "pt" resolves to Brazilian conventions in some Intl implementations, which is wrong here. */
+export const INTL_TAG: Record<Locale, string> = {
+	pt: 'pt-PT',
+	en: 'en',
+	es: 'es',
+	fr: 'fr',
+	de: 'de',
+	hi: 'hi',
+	ja: 'ja',
+	ar: 'ar',
 };
 
 export function postLocale(entry: PostEntry): Locale {

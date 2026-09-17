@@ -4,7 +4,7 @@ import { SITE } from '../config/site';
 import { getPublishedPosts, postSlug } from '../utils/posts';
 
 export async function GET(context: APIContext) {
-	const posts = await getPublishedPosts('en');
+	const posts = await getPublishedPosts('pt');
 	const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 	return rss({

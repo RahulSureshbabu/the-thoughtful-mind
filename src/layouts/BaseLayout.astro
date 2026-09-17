@@ -53,6 +53,6 @@ const availableLocales = translations.length > 0 ? translations.map((t) => t.loc
 		<main>
 			<slot />
 		</main>
-		<Footer />
+		<Footer locale={locale} />
 	</body>
 </html>

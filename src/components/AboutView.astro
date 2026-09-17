@@ -1,24 +1,23 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { SITE, ADSENSE } from '../config/site';
+import { ADSENSE } from '../config/site';
 import type { Locale } from '../utils/posts';
+import { t } from '../utils/strings';
 
 interface Props {
 	locale: Locale;
 }
 
 const { locale } = Astro.props;
+const title = t(locale, 'about.title');
 ---
 
-<BaseLayout locale={locale} title="About" description={`About ${SITE.title}`}>
+<BaseLayout locale={locale} title={title} description={t(locale, 'about.body1')}>
 	<article class="container prose about">
-		<h1>About</h1>
-		<p>
-			{SITE.title} is a home for slow, careful writing about psychology — how the mind works, why we feel
-			what we feel, and what the research actually says once the headlines are stripped away.
-		</p>
-		<p>Posts are written in English and translated automatically for readers around the world.</p>
-		{ADSENSE.enabled && <p class="disclosure">This site runs display ads to help cover the cost of keeping it online and ad-free of subscriptions.</p>}
+		<h1>{title}</h1>
+		<p>{t(locale, 'about.body1')}</p>
+		<p>{t(locale, 'about.body2')}</p>
+		{ADSENSE.enabled && <p class="disclosure">{t(locale, 'footer.adDisclosure')}</p>}
 	</article>
 </BaseLayout>
 

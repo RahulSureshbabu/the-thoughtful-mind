@@ -8,8 +8,8 @@ export default defineConfig({
 	base: '/the-thoughtful-mind',
 	integrations: [sitemap()],
 	i18n: {
-		defaultLocale: 'en',
-		locales: ['en', 'es', 'fr', 'de', 'pt', 'hi', 'ja', 'ar'],
+		defaultLocale: 'pt',
+		locales: ['pt', 'en', 'es', 'fr', 'de', 'hi', 'ja', 'ar'],
 		routing: {
 			prefixDefaultLocale: false,
 		},
