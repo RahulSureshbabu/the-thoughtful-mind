@@ -35,9 +35,7 @@ The test suite starts `npm run preview` itself if nothing is already listening o
 
 ## One-time setup (before this is live)
 
-Replace every `your-github-username` placeholder in `astro.config.mjs`, `src/config/site.ts`, and `public/admin/config.yml` with the real GitHub username/repo, then:
-
-1. Create the GitHub repo `the-thoughtful-mind` (must be public for free GitHub Pages) and push this project to `main`.
+1. ~~Create the GitHub repo `the-thoughtful-mind` and push this project to `main`.~~ Done — [github.com/RahulSureshbabu/the-thoughtful-mind](https://github.com/RahulSureshbabu/the-thoughtful-mind).
 2. Repo **Settings → Pages → Source = "GitHub Actions"**.
 3. Register a GitHub OAuth App (**Settings → Developer settings → OAuth Apps**) for the CMS login button.
 4. Deploy [`sveltia/sveltia-cms-auth`](https://github.com/sveltia/sveltia-cms-auth) to a free Cloudflare Workers account; wire its URL together with the OAuth App's client ID/secret per that project's README, then update `base_url` in `public/admin/config.yml`.

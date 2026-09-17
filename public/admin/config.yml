@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: your-github-username/the-thoughtful-mind # TODO: replace with the real GitHub owner/repo
+  repo: RahulSureshbabu/the-thoughtful-mind
   branch: main
   base_url: https://your-worker.workers.dev # TODO: replace with the deployed sveltia-cms-auth Worker URL
   auth_endpoint: auth

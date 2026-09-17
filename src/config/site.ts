@@ -1,7 +1,7 @@
 export const SITE = {
 	title: 'The Thoughtful Mind',
 	description: 'Reflexões sobre psicologia, escritas para serem lidas com calma.',
-	url: 'https://your-github-username.github.io/the-thoughtful-mind',
+	url: 'https://RahulSureshbabu.github.io/the-thoughtful-mind',
 };
 
 export const ADSENSE = {

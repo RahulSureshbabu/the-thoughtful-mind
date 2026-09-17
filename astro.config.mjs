@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://your-github-username.github.io',
+	site: 'https://RahulSureshbabu.github.io',
 	base: '/the-thoughtful-mind',
 	integrations: [sitemap()],
 	i18n: {
