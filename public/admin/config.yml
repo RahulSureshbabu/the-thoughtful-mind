@@ -1,0 +1,30 @@
+backend:
+  name: github
+  repo: your-github-username/the-thoughtful-mind # TODO: replace with the real GitHub owner/repo
+  branch: main
+  base_url: https://your-worker.workers.dev # TODO: replace with the deployed sveltia-cms-auth Worker URL
+  auth_endpoint: auth
+
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+# The writer only ever authors in English — every other language is generated
+# automatically by the CI translation step (scripts/translate.mjs). Do not add
+# per-language collections here.
+collections:
+  - name: posts
+    label: Posts
+    folder: src/content/posts/en
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Description, name: description, widget: text }
+      - { label: "Publish Date", name: pubDate, widget: datetime }
+      - { label: "Updated Date", name: updatedDate, widget: datetime, required: false }
+      - { label: Tags, name: tags, widget: list, default: [] }
+      - { label: "Cover Image", name: coverImage, widget: image, required: false }
+      - { label: "Cover Image Alt Text", name: coverImageAlt, widget: string, required: false }
+      - { label: Featured, name: featured, widget: boolean, default: false }
+      - { label: Draft, name: draft, widget: boolean, default: true }
+      - { label: Body, name: body, widget: markdown }

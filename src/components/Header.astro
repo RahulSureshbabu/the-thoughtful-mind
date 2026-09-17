@@ -1,0 +1,66 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+import { SITE } from '../config/site';
+import type { Locale } from '../utils/posts';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const prefix = locale === 'en' ? '' : `/${locale}`;
+const home = `${base}${prefix}/`;
+const tagsHref = `${base}${prefix}/tags/`;
+const aboutHref = `${base}${prefix}/about/`;
+---
+
+<header class="site-header">
+	<div class="container inner">
+		<a class="brand" href={home}>{SITE.title}</a>
+		<nav aria-label="Primary">
+			<a href={home}>Home</a>
+			<a href={tagsHref}>Tags</a>
+			<a href={aboutHref}>About</a>
+		</nav>
+		<ThemeToggle />
+	</div>
+</header>
+
+<style>
+	.site-header {
+		border-bottom: 1px solid var(--border);
+	}
+
+	.inner {
+		display: flex;
+		align-items: center;
+		gap: 1.5rem;
+		padding-block: 1.1rem;
+		flex-wrap: wrap;
+	}
+
+	.brand {
+		font-family: var(--font-display);
+		font-weight: 600;
+		font-size: 1.15rem;
+		color: var(--text);
+		text-decoration: none;
+		margin-right: auto;
+	}
+
+	nav {
+		display: flex;
+		gap: 1.1rem;
+		font-size: 0.95rem;
+	}
+
+	nav a {
+		color: var(--text-muted);
+		text-decoration: none;
+	}
+
+	nav a:hover {
+		color: var(--primary);
+	}
+</style>

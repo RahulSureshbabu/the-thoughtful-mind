@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostCard from './PostCard.astro';
+import { SITE } from '../config/site';
+import { getPublishedPosts, type Locale } from '../utils/posts';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const posts = await getPublishedPosts(locale);
+---
+
+<BaseLayout locale={locale} title={SITE.title} description={SITE.description}>
+	<section class="container hero">
+		<h1>{SITE.title}</h1>
+		<p>{SITE.description}</p>
+	</section>
+	<section class="container posts">
+		{posts.length === 0 && <p>New posts are on their way — check back soon.</p>}
+		{posts.map((post) => <PostCard post={post} locale={locale} />)}
+	</section>
+</BaseLayout>
+
+<style>
+	.hero {
+		padding-block: 2.5rem 1rem;
+	}
+
+	.hero p {
+		color: var(--text-muted);
+	}
+
+	.posts {
+		padding-block: 1rem 3rem;
+	}
+</style>

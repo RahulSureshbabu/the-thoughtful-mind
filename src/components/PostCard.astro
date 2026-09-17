@@ -1,0 +1,81 @@
+---
+import type { PostEntry } from '../utils/posts';
+import { postSlug, type Locale } from '../utils/posts';
+import { estimateReadingMinutes } from '../utils/readingTime';
+
+interface Props {
+	post: PostEntry;
+	locale: Locale;
+}
+
+const { post, locale } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const prefix = locale === 'en' ? '' : `/${locale}`;
+const href = `${base}${prefix}/posts/${postSlug(post)}/`;
+const { title, description, pubDate, tags, coverImage, coverImageAlt } = post.data;
+const readingMinutes = estimateReadingMinutes(post.body ?? '');
+---
+
+<article class="post-card">
+	{coverImage && <a href={href} class="cover"><img src={`${base}${coverImage}`} alt={coverImageAlt ?? ''} loading="lazy" decoding="async" /></a>}
+	<div class="body">
+		<h2><a href={href}>{title}</a></h2>
+		<p class="meta">
+			<time datetime={pubDate.toISOString()}>{pubDate.toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+			<span aria-hidden="true">·</span>
+			<span>{readingMinutes} min read</span>
+		</p>
+		<p class="description">{description}</p>
+		{tags.length > 0 && (
+			<p class="tags">
+				{tags.map((tag) => <a class="tag-chip" href={`${base}${prefix}/tags/${tag}/`}>{tag}</a>)}
+			</p>
+		)}
+	</div>
+</article>
+
+<style>
+	.post-card {
+		padding-block: 1.75rem;
+		border-bottom: 1px solid var(--border);
+	}
+
+	.cover img {
+		width: 100%;
+		border-radius: var(--radius);
+		margin-bottom: 1rem;
+		display: block;
+	}
+
+	h2 {
+		margin: 0 0 0.35rem;
+		font-size: 1.4rem;
+	}
+
+	h2 a {
+		color: var(--text);
+		text-decoration: none;
+	}
+
+	h2 a:hover {
+		color: var(--primary);
+	}
+
+	.meta {
+		color: var(--text-muted);
+		font-size: 0.85rem;
+		margin: 0 0 0.6rem;
+	}
+
+	.description {
+		margin: 0 0 0.75rem;
+		color: var(--text);
+	}
+
+	.tags {
+		display: flex;
+		gap: 0.4rem;
+		flex-wrap: wrap;
+		margin: 0;
+	}
+</style>

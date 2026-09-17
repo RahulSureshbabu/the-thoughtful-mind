@@ -1,0 +1,16 @@
+---
+import { getCollection } from 'astro:content';
+import PostView from '../../../components/PostView.astro';
+import { postLocale, postSlug, LOCALES } from '../../../utils/posts';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('posts', (entry) => postLocale(entry) !== 'en' && !entry.data.draft);
+	return posts.map((post) => ({
+		params: { locale: postLocale(post), slug: postSlug(post) },
+	}));
+}
+
+const { locale, slug } = Astro.params as { locale: (typeof LOCALES)[number]; slug: string };
+---
+
+<PostView locale={locale} slug={slug} />

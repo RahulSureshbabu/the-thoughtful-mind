@@ -1,0 +1,161 @@
+@import '@fontsource-variable/fraunces';
+@import '@fontsource/literata/400.css';
+@import '@fontsource/literata/400-italic.css';
+@import '@fontsource/literata/600.css';
+@import '@fontsource/literata/700.css';
+
+:root {
+	--bg: #faf7f2;
+	--surface: #f3eee6;
+	--text: #2b2a28;
+	--text-muted: #6b655d;
+	--primary: #3a6b65;
+	--primary-hover: #2c514d;
+	--accent: #c97c5d;
+	--border: #e4ddd1;
+
+	--font-display: 'Fraunces Variable', Georgia, serif;
+	--font-body: 'Literata', Georgia, serif;
+	--font-fallback-devanagari: 'Nirmala UI', 'Noto Sans Devanagari', sans-serif;
+	--font-fallback-arabic: 'Segoe UI', 'Noto Naskh Arabic', sans-serif;
+
+	--content-width: 68ch;
+	--radius: 0.5rem;
+
+	color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+	--bg: #14181a;
+	--surface: #1d2224;
+	--text: #edeae4;
+	--text-muted: #a7a198;
+	--primary: #6fa89f;
+	--primary-hover: #8fc0b8;
+	--accent: #e0946e;
+	--border: #2a302f;
+
+	color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme='light']) {
+		--bg: #14181a;
+		--surface: #1d2224;
+		--text: #edeae4;
+		--text-muted: #a7a198;
+		--primary: #6fa89f;
+		--primary-hover: #8fc0b8;
+		--accent: #e0946e;
+		--border: #2a302f;
+
+		color-scheme: dark;
+	}
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	background: var(--bg);
+}
+
+body {
+	margin: 0;
+	background: var(--bg);
+	color: var(--text);
+	font-family: var(--font-body);
+	font-size: clamp(1rem, 0.94rem + 0.3vw, 1.125rem);
+	line-height: 1.7;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4 {
+	font-family: var(--font-display);
+	font-weight: 600;
+	line-height: 1.2;
+	color: var(--text);
+}
+
+h1 {
+	font-size: clamp(1.9rem, 1.6rem + 1.5vw, 2.75rem);
+}
+
+h2 {
+	font-size: clamp(1.4rem, 1.25rem + 0.8vw, 1.85rem);
+}
+
+a {
+	color: var(--primary);
+	text-decoration-color: var(--border);
+	text-underline-offset: 0.2em;
+}
+
+a:hover {
+	color: var(--primary-hover);
+	text-decoration-color: currentColor;
+}
+
+.container {
+	max-width: var(--content-width);
+	margin-inline: auto;
+	padding-inline: 1.25rem;
+}
+
+.wide-container {
+	max-width: 44rem;
+	margin-inline: auto;
+	padding-inline: 1.25rem;
+}
+
+.tag-chip {
+	display: inline-block;
+	padding: 0.2rem 0.65rem;
+	border-radius: 999px;
+	background: var(--surface);
+	color: var(--accent);
+	border: 1px solid var(--border);
+	font-size: 0.8rem;
+	text-decoration: none;
+}
+
+.tag-chip:hover {
+	color: var(--accent);
+	border-color: var(--accent);
+}
+
+[lang='hi'] {
+	font-family: var(--font-fallback-devanagari), var(--font-body);
+}
+
+[lang='ar'] {
+	font-family: var(--font-fallback-arabic), var(--font-body);
+	direction: rtl;
+}
+
+.prose img {
+	max-width: 100%;
+	height: auto;
+	border-radius: var(--radius);
+}
+
+.prose {
+	max-width: var(--content-width);
+	margin-inline: auto;
+}
+
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+}

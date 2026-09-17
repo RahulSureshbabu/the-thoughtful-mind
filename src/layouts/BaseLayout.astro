@@ -1,0 +1,58 @@
+---
+import '../styles/global.css';
+import SEO from '../components/SEO.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import LanguageBanner from '../components/LanguageBanner.astro';
+import { LOCALES, type Locale } from '../utils/posts';
+
+interface Translation {
+	locale: Locale;
+	path: string;
+}
+
+interface Props {
+	locale: Locale;
+	title: string;
+	description: string;
+	type?: 'website' | 'article';
+	image?: string;
+	pubDate?: Date;
+	updatedDate?: Date;
+	translations?: Translation[];
+}
+
+const { locale, title, description, type, image, pubDate, updatedDate, translations = [] } = Astro.props;
+const dir = locale === 'ar' ? 'rtl' : 'ltr';
+const availableLocales = translations.length > 0 ? translations.map((t) => t.locale) : (LOCALES as unknown as Locale[]);
+---
+
+<!doctype html>
+<html lang={locale} dir={dir}>
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="generator" content={Astro.generator} />
+		<SEO title={title} description={description} locale={locale} type={type} image={image} pubDate={pubDate} updatedDate={updatedDate} translations={translations} />
+		<script is:inline>
+			(function () {
+				try {
+					var stored = localStorage.getItem('theme');
+					var theme = stored ?? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+					document.documentElement.setAttribute('data-theme', theme);
+				} catch (e) {
+					// localStorage unavailable — default light styles from CSS apply
+				}
+			})();
+		</script>
+	</head>
+	<body>
+		<Header locale={locale} />
+		<LanguageBanner locale={locale} availableLocales={availableLocales} />
+		<main>
+			<slot />
+		</main>
+		<Footer />
+	</body>
+</html>

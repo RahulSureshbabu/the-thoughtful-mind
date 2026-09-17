@@ -1,0 +1,85 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import AdSlot from '../components/AdSlot.astro';
+import PostCard from '../components/PostCard.astro';
+import type { PostEntry, Locale } from '../utils/posts';
+import { estimateReadingMinutes } from '../utils/readingTime';
+
+interface Translation {
+	locale: Locale;
+	path: string;
+}
+
+interface Props {
+	post: PostEntry;
+	locale: Locale;
+	translations?: Translation[];
+	relatedPosts?: PostEntry[];
+}
+
+const { post, locale, translations = [], relatedPosts = [] } = Astro.props;
+const { title, description, pubDate, updatedDate, tags, coverImage, coverImageAlt } = post.data;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const prefix = locale === 'en' ? '' : `/${locale}`;
+const readingMinutes = estimateReadingMinutes(post.body ?? '');
+---
+
+<BaseLayout locale={locale} title={title} description={description} type="article" image={coverImage} pubDate={pubDate} updatedDate={updatedDate} translations={translations}>
+	<article class="wide-container post">
+		{coverImage && <img class="cover" src={`${base}${coverImage}`} alt={coverImageAlt ?? ''} />}
+		<h1>{title}</h1>
+		<p class="meta">
+			<time datetime={pubDate.toISOString()}>{pubDate.toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+			<span aria-hidden="true">·</span>
+			<span>{readingMinutes} min read</span>
+		</p>
+		{tags.length > 0 && (
+			<p class="tags">
+				{tags.map((tag) => <a class="tag-chip" href={`${base}${prefix}/tags/${tag}/`}>{tag}</a>)}
+			</p>
+		)}
+
+		<div class="prose">
+			<slot />
+		</div>
+
+		<AdSlot placement="inArticleTop" />
+
+		{relatedPosts.length > 0 && (
+			<section class="related">
+				<h2>Related reading</h2>
+				{relatedPosts.map((related) => <PostCard post={related} locale={locale} />)}
+				<AdSlot placement="inArticleBottom" />
+			</section>
+		)}
+	</article>
+</BaseLayout>
+
+<style>
+	.post {
+		padding-block: 2rem 3rem;
+	}
+
+	.cover {
+		width: 100%;
+		border-radius: var(--radius);
+		margin-bottom: 1.5rem;
+	}
+
+	.meta {
+		color: var(--text-muted);
+		font-size: 0.9rem;
+	}
+
+	.tags {
+		display: flex;
+		gap: 0.4rem;
+		flex-wrap: wrap;
+	}
+
+	.related {
+		margin-top: 3rem;
+		border-top: 1px solid var(--border);
+		padding-top: 1.5rem;
+	}
+</style>

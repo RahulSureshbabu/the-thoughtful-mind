@@ -1,0 +1,30 @@
+---
+import { render } from 'astro:content';
+import PostLayout from '../layouts/PostLayout.astro';
+import { getPostBySlug, getRelatedPosts, getAvailableLocalesForSlug, type Locale } from '../utils/posts';
+
+interface Props {
+	locale: Locale;
+	slug: string;
+}
+
+const { locale, slug } = Astro.props;
+const post = await getPostBySlug(locale, slug);
+
+if (!post) {
+	throw new Error(`Post not found for locale "${locale}" and slug "${slug}" — this indicates a bug in getStaticPaths.`);
+}
+
+const { Content } = await render(post);
+const relatedPosts = await getRelatedPosts(locale, post);
+const availableLocales = await getAvailableLocalesForSlug(slug);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const translations = availableLocales.map((l) => ({
+	locale: l,
+	path: `${base}${l === 'en' ? '' : `/${l}`}/posts/${slug}/`,
+}));
+---
+
+<PostLayout post={post} locale={locale} translations={translations} relatedPosts={relatedPosts}>
+	<Content />
+</PostLayout>

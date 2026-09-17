@@ -1,0 +1,39 @@
+---
+import { ADSENSE } from '../config/site';
+
+interface Props {
+	placement: keyof typeof ADSENSE.slots;
+}
+
+const { placement } = Astro.props;
+---
+
+{
+	ADSENSE.enabled && (
+		<div class="ad-slot" aria-label="Advertisement">
+			<ins
+				class="adsbygoogle"
+				style="display:block"
+				data-ad-client={ADSENSE.clientId}
+				data-ad-slot={ADSENSE.slots[placement]}
+				data-ad-format="fluid"
+				data-full-width-responsive="true"
+			/>
+			<script>
+				try {
+					// @ts-expect-error - global provided by the AdSense loader script
+					(window.adsbygoogle = window.adsbygoogle || []).push({});
+				} catch {
+					// AdSense script blocked (ad blocker, privacy mode) — fail silently
+				}
+			</script>
+		</div>
+	)
+}
+
+<style>
+	.ad-slot {
+		margin-block: 2rem;
+		text-align: center;
+	}
+</style>

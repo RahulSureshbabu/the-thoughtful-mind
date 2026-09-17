@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getAllTags, type Locale } from '../utils/posts';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const tags = await getAllTags(locale);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const prefix = locale === 'en' ? '' : `/${locale}`;
+---
+
+<BaseLayout locale={locale} title="Tags" description="Browse posts by topic">
+	<section class="container tags-page">
+		<h1>Tags</h1>
+		{tags.length === 0 && <p>No tags yet.</p>}
+		<p class="tag-list">
+			{tags.map((tag) => <a class="tag-chip" href={`${base}${prefix}/tags/${tag}/`}>{tag}</a>)}
+		</p>
+	</section>
+</BaseLayout>
+
+<style>
+	.tags-page {
+		padding-block: 2.5rem 3rem;
+	}
+
+	.tag-list {
+		display: flex;
+		gap: 0.5rem;
+		flex-wrap: wrap;
+	}
+</style>

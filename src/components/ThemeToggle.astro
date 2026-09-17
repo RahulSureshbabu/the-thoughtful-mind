@@ -1,0 +1,43 @@
+<button id="theme-toggle" type="button" aria-label="Toggle dark mode">
+	<span class="icon" aria-hidden="true">◐</span>
+</button>
+
+<style>
+	#theme-toggle {
+		background: none;
+		border: 1px solid var(--border);
+		border-radius: 999px;
+		width: 2.25rem;
+		height: 2.25rem;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		color: var(--text);
+		font-size: 1rem;
+	}
+
+	#theme-toggle:hover {
+		border-color: var(--primary);
+		color: var(--primary);
+	}
+</style>
+
+<script>
+	const STORAGE_KEY = 'theme';
+	const button = document.getElementById('theme-toggle');
+
+	function currentTheme(): 'light' | 'dark' {
+		return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+	}
+
+	button?.addEventListener('click', () => {
+		const next = currentTheme() === 'dark' ? 'light' : 'dark';
+		document.documentElement.setAttribute('data-theme', next);
+		try {
+			localStorage.setItem(STORAGE_KEY, next);
+		} catch {
+			// storage unavailable (private mode, blocked cookies) — theme just won't persist
+		}
+	});
+</script>

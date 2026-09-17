@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout locale="en" title="Page not found" description="This page could not be found.">
+	<section class="container not-found">
+		<h1>Page not found</h1>
+		<p>The page you're looking for doesn't exist. <a href={import.meta.env.BASE_URL}>Return home</a>.</p>
+	</section>
+</BaseLayout>
+
+<style>
+	.not-found {
+		padding-block: 4rem;
+		text-align: center;
+	}
+</style>

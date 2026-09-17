@@ -1,0 +1,62 @@
+---
+import { SITE } from '../config/site';
+import type { Locale } from '../utils/posts';
+
+interface Translation {
+	locale: Locale;
+	path: string;
+}
+
+interface Props {
+	title: string;
+	description: string;
+	locale: Locale;
+	type?: 'website' | 'article';
+	image?: string;
+	pubDate?: Date;
+	updatedDate?: Date;
+	translations?: Translation[];
+}
+
+const { title, description, locale, type = 'website', image, pubDate, updatedDate, translations = [] } = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, SITE.url);
+const ogImage = image ? new URL(image, SITE.url).toString() : undefined;
+const pageTitle = title === SITE.title ? title : `${title} · ${SITE.title}`;
+
+const defaultTranslation = translations.find((t) => t.locale === 'en');
+---
+
+<title>{pageTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalURL} />
+
+{translations.map((t) => <link rel="alternate" hreflang={t.locale} href={new URL(t.path, SITE.url).toString()} />)}
+{defaultTranslation && <link rel="alternate" hreflang="x-default" href={new URL(defaultTranslation.path, SITE.url).toString()} />}
+
+<meta property="og:type" content={type} />
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:locale" content={locale} />
+{ogImage && <meta property="og:image" content={ogImage} />}
+
+<meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+<meta name="twitter:title" content={pageTitle} />
+<meta name="twitter:description" content={description} />
+
+{
+	type === 'article' && (
+		<script type="application/ld+json" set:html={JSON.stringify({
+			'@context': 'https://schema.org',
+			'@type': 'Article',
+			headline: title,
+			description,
+			image: ogImage,
+			datePublished: pubDate?.toISOString(),
+			dateModified: (updatedDate ?? pubDate)?.toISOString(),
+			inLanguage: locale,
+			publisher: { '@type': 'Organization', name: SITE.title },
+		})} />
+	)
+}

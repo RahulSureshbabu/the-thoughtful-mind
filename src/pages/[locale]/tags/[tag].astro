@@ -1,0 +1,20 @@
+---
+import { getAllTags, LOCALES } from '../../../utils/posts';
+import TagView from '../../../components/TagView.astro';
+
+export async function getStaticPaths() {
+	const locales = LOCALES.filter((locale) => locale !== 'en');
+	const paths = [];
+	for (const locale of locales) {
+		const tags = await getAllTags(locale);
+		for (const tag of tags) {
+			paths.push({ params: { locale, tag } });
+		}
+	}
+	return paths;
+}
+
+const { locale, tag } = Astro.params as { locale: (typeof LOCALES)[number]; tag: string };
+---
+
+<TagView locale={locale} tag={tag} />

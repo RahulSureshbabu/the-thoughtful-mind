@@ -1,0 +1,12 @@
+---
+import AboutView from '../../components/AboutView.astro';
+import { LOCALES } from '../../utils/posts';
+
+export function getStaticPaths() {
+	return LOCALES.filter((locale) => locale !== 'en').map((locale) => ({ params: { locale } }));
+}
+
+const { locale } = Astro.params as { locale: (typeof LOCALES)[number] };
+---
+
+<AboutView locale={locale} />

@@ -1,0 +1,12 @@
+---
+import TagIndexView from '../../../components/TagIndexView.astro';
+import { LOCALES } from '../../../utils/posts';
+
+export function getStaticPaths() {
+	return LOCALES.filter((locale) => locale !== 'en').map((locale) => ({ params: { locale } }));
+}
+
+const { locale } = Astro.params as { locale: (typeof LOCALES)[number] };
+---
+
+<TagIndexView locale={locale} />
