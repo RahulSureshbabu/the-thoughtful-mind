@@ -12,6 +12,7 @@
 // forever.
 import sharp from 'sharp';
 import { createHash } from 'node:crypto';
+import { existsSync } from 'node:fs';
 import { readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
@@ -84,6 +85,12 @@ async function optimize(filePath, manifest) {
 }
 
 async function main() {
+	if (!existsSync(UPLOADS_DIR)) {
+		// Nothing uploaded yet — nothing to do, and nowhere to write a manifest.
+		console.log('No uploads folder yet — nothing to optimize.');
+		return;
+	}
+
 	const manifest = await loadManifest();
 	let optimizedCount = 0;
 	let savedBytes = 0;
