@@ -2,7 +2,7 @@ backend:
   name: github
   repo: RahulSureshbabu/the-thoughtful-mind
   branch: main
-  base_url: https://your-worker.workers.dev # TODO: replace with the deployed sveltia-cms-auth Worker URL
+  base_url: https://sveltia-cms-auth.rahulsureshbabu.workers.dev
   auth_endpoint: auth
 
 media_folder: "public/images/uploads"
