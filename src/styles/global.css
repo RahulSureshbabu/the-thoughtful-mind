@@ -65,7 +65,6 @@ html {
 
 body {
 	margin: 0;
-	background: var(--bg);
 	color: var(--text);
 	font-family: var(--font-body);
 	font-size: clamp(1rem, 0.94rem + 0.3vw, 1.125rem);
